@@ -1,11 +1,11 @@
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from 'angularfire2'; 
-import { AngularFireDatabaseModule } from 'angularfire2/database'; 
-import { AngularFireAuthModule } from 'angularfire2/auth'; 
-import { RouterModule } from '@angular/router'; 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { AuthGuard as AuthGuard } from './auth-guard.service';
 import { UserService } from './user.service';
+import { AdminAuthGuardService as AdminAuthGuard } from './admin-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -48,18 +49,19 @@ import { UserService } from './user.service';
       { path: 'shopping-cart', component: ShoppingCartComponent },
       { path: 'login', component: LoginComponent },
 
-      { path: 'check-out', component: CheckOutComponent, canActivate: [ AuthGuard]},
-      { path: 'order-success', component: OrderSuccessComponent, canActivate: [ AuthGuard] },
-      { path: 'my/orders', component: MyOrdersComponent, canActivate: [ AuthGuard] },
+      { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuard] },
+      { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuard] },
+      { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuard] },
 
-      { path: 'admin/products', component: AdminProductsComponent, canActivate: [ AuthGuard] },
-      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [ AuthGuard] }
-    ])    
+      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] }
+    ])
   ],
   providers: [
     AuthService,
     AuthGuard,
-    UserService
+    UserService,
+    AdminAuthGuard
   ],
   bootstrap: [AppComponent]
 })
